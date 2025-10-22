@@ -9,7 +9,7 @@ var map = new ol.Map({
 });
 
 //initial view - epsg:3857 coordinates if not "Match project CRS"
-map.getView().fit([-6076437.781124, -2934187.559523, -6076242.546749, -2934050.709844], map.getSize());
+map.getView().fit([-6076406.613968, -2934194.206372, -6076211.379593, -2934050.775759], map.getSize());
 
 ////small screen definition
     var hasTouchScreen = map.getViewport().classList.contains('ol-touch');
@@ -445,6 +445,17 @@ var bottomRightContainerDiv = document.getElementById('bottom-right-container')
 
 //title
 
+var Title = new ol.control.Control({
+    element: (() => {
+        var titleElement = document.createElement('div');
+        titleElement.className = 'bottom-left-title ol-control';
+        titleElement.innerHTML = '<h2 class="project-title">UNILA ALmada</h2>';
+        return titleElement;
+    })(),
+    target: 'bottom-left-container'
+});
+map.addControl(Title)
+    
 //abstract
 
 
@@ -464,7 +475,7 @@ var bottomRightContainerDiv = document.getElementById('bottom-right-container')
 //layer search
 
 var searchLayer = new SearchLayer({
-    layer: lyr_EDALMADAPAVTRREO_1,
+    layer: lyr_PavimentoTrreo_1,
     colName: 'almada-terreo_DESCRICAO',
     zoom: 10,
     collapsed: true,
@@ -480,6 +491,23 @@ document.getElementsByClassName('search-layer-input-search')[0].placeholder = 'S
 
 
 //layerswitcher
+
+var layerSwitcher = new ol.control.LayerSwitcher({
+    activationMode: 'click',
+	startActive: true,
+	tipLabel: "Layers",
+    target: 'top-right-container',
+	collapseLabel: '»',
+	collapseTipLabel: 'Close'
+    });
+map.addControl(layerSwitcher);
+if (hasTouchScreen || isSmallScreen) {
+	document.addEventListener('DOMContentLoaded', function() {
+		setTimeout(function() {
+			layerSwitcher.hidePanel();
+		}, 500);
+	});	
+}
 
 
 
